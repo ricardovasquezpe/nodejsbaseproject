@@ -4,10 +4,11 @@
   "description": "An API built with NodeJS, Express, MongoDB and TypeScript",
   "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --watch --testTimeout=10000",
+    "coverage": "jest --coverage",
     "build": "tsc",
-    "dev": "ts-node ./lib/server.ts",
-    "start": "nodemon ./dist/server.js",
+    "dev": "ts-node-dev ./lib/server.ts",
+    "start": "node ./dist/server.js",
     "prod": "npm run build && npm run start"
   },
   "keywords": [
@@ -18,11 +19,24 @@
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.16.1",
+    "@types/jest": "^24.0.18",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-validator": "^6.1.1",
+    "jest": "^24.9.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.7",
-    "nodemon": "^1.18.9"
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.1.0",
+    "ts-node-dev": "^1.0.0-pre.42",
+    "typescript": "^3.6.3"
+  },
+  "devDependencies": {},
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

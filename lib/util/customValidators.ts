@@ -7,4 +7,8 @@ export class CustomValidators {
         return date.toISOString().slice(0, 10) === value;
     }
 
+    public suma(a, b){
+        return a + b;
+    }
+
 }

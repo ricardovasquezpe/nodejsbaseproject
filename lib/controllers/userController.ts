@@ -66,4 +66,8 @@ export class UserController{
         });
     }
 
+    public suma(a , b){
+        return a + b;
+    }
+
 }
