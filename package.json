@@ -1,10 +1,10 @@
 {
-  "name": "crm",
+  "name": "myApp",
   "version": "1.0.0",
   "description": "An API built with NodeJS, Express, MongoDB and TypeScript",
   "main": "dist/server.js",
   "scripts": {
-    "test": "jest --watch --testTimeout=10000",
+    "test": "jest --coverage",
     "coverage": "jest --coverage",
     "build": "tsc",
     "dev": "ts-node-dev ./lib/server.ts",
@@ -37,6 +37,19 @@
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
+    ],
+    "coverageReporters":[
+      "text",
+      "html"
+    ],
+    "reporters":[
+      "default",
+      "jest-junit"
     ]
+  },
+  "jest-junit":{
+    "outputDirectory": "test_results/junit",
+    "outputName": "junit.xml",
+    "usePathForSuiteName": "true"
   }
 }
