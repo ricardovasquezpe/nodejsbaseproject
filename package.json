@@ -29,7 +29,8 @@
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "ts-node-dev": "^1.0.0-pre.42",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "jest-junit": "^8.0.0"
   },
   "devDependencies": {},
   "jest": {
