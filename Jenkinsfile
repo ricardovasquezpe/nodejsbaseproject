@@ -3,21 +3,21 @@ pipeline {
     stages{
         stage('StartUp'){
             steps{
-                dir("${env.WORKSPACE}/nodejsbaseproject"){
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
                     script{
                         sh 'npm install'
                     }
-                }
+                //}
             }
         }
         
         stage('Testing'){
             steps{
-                dir("${env.WORKSPACE}/nodejsbaseproject"){
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
                     script{
                         sh 'npm run test'
                     }
-                }
+                //}
             }
             post {
                 failure{
@@ -25,17 +25,18 @@ pipeline {
                 }
                 always {
                   //step([$class: 'CoberturaPublisher', coberturaReportFile: 'nodejsbaseproject/output/coverage/jest/cobertura-coverage.xml'])
-                  junit 'nodejsbaseproject/test_results/junit/junit.xml'
+                  //junit 'nodejsbaseproject/test_results/junit/junit.xml'
+                    junit 'test_results/junit/junit.xml'
                 }
             }
         }
         stage('Build') {
             steps {
-                dir("${env.WORKSPACE}/nodejsbaseproject"){
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
                     script {
                         sh 'npm run build'
                     }
-                }
+                //}
             }
             post{
                 success{
