@@ -51,11 +51,11 @@ pipeline {
             }
         }
         stage('Deploy') {
-            when {
+            /*when {
                 expression {
                     currentBuild.previousBuild.result == 'SUCCESS'
                 }
-            }
+            }*/
             steps {
                 script {
                     sh 'npm start'
