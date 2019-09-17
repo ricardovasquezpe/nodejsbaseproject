@@ -7,4 +7,4 @@ describe('Sample Test', () => {
         const result = customValidators.suma(3 , 4);
         expect(result).toBe(7)
     })
-}) 
+})  
