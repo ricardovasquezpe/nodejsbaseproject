@@ -1,23 +1,26 @@
 def userInput = true
 def didTimeout = false
-try {
-    timeout(time: 15, unit: 'SECONDS') { // change to a convenient timeout for you
-        userInput = input(
-        id: 'Proceed1', message: 'Was this successful?', parameters: [
-        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
-        ])
-    }
-} catch(err) { // timeout reached or input false
-    def user = err.getCauses()[0].getUser()
-    if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
-        didTimeout = true
-    } else {
-        userInput = false
-        echo "Aborted by: [${user}]"
+def preguntar() {
+    try {
+        timeout(time: 15, unit: 'SECONDS') { // change to a convenient timeout for you
+            userInput = input(
+            id: 'Proceed1', message: 'Was this successful?', parameters: [
+            [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
+            ])
+        }
+    } catch(err) { // timeout reached or input false
+        def user = err.getCauses()[0].getUser()
+        if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
+            didTimeout = true
+        } else {
+            userInput = false
+            echo "Aborted by: [${user}]"
+        }
     }
 }
 
 node {
+    preguntar()
     if (didTimeout) {
         // do something on timeout
         echo "no input was received before timeout"
