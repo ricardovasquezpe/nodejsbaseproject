@@ -1,11 +1,102 @@
 def userInput = true
 def didTimeout = false
+
+pipeline {
+    agent any
+    stages{
+        stage('Slave'){
+            agent { node { label "slave" } }
+            steps{
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
+                    script{
+                        sh 'echo "Holi Slave"'
+                    }
+                //}
+            }
+        }
+        
+        stage('StartUp'){
+            steps{
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
+                    script{
+                        sh 'npm install'
+                    }
+                //}
+            }
+        }
+        
+        stage('Testing'){
+            steps{
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
+                    script{
+                        sh 'npm run test'
+                    }
+                //}
+            }
+            post {
+                failure{
+                    echo 'Tests failed'
+                }
+                always {
+                  //step([$class: 'CoberturaPublisher', coberturaReportFile: 'nodejsbaseproject/output/coverage/jest/cobertura-coverage.xml'])
+                  //junit 'nodejsbaseproject/test_results/junit/junit.xml'
+                    junit 'test_results/junit/junit.xml'
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
+                    script {
+                        sh 'npm run build'
+                    }
+                //}
+            }
+            post{
+                success{
+                    echo "${env.BUILD_URL} has result success"
+                }
+                failure{
+                    emailext body: 'Error on Jenkins Build ${env.BUILD_URL}', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Jenkins Error'
+                }
+                aborted {
+                    echo "Aborted"
+                }
+            }
+        }
+        
+        stage('Pregunta'){
+            if (didTimeout) {
+                echo "No seleccionó ninguna opcion"
+            } else if (userInput == true) {
+                echo "Aceptó"
+            } else {
+                echo "Falló"
+                currentBuild.result = 'FAILURE'
+            } 
+        }
+        
+        stage('Deploy') {
+            /*when {
+                expression {
+                    currentBuild.previousBuild.result == 'SUCCESS'
+                }
+            }*/
+            steps {
+                script {
+                    sh 'npm start'
+                }
+            }
+        }
+    }
+}
+
 def preguntar() {
     try {
         timeout(time: 15, unit: 'SECONDS') { // change to a convenient timeout for you
             userInput = input(
-            id: 'Proceed1', message: 'Was this successful?', parameters: [
-            [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
+            id: 'Proceed', message: 'Pasamos a la siguiente etapa?', parameters: [
+            [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Porfavor Confirma que esta conforme con el siguiente paso']
             ])
         }
     } catch(err) { // timeout reached or input false
@@ -14,22 +105,8 @@ def preguntar() {
             didTimeout = true
         } else {
             userInput = false
-            echo "Aborted by: [${user}]"
+            echo "Detenido Por: [${user}]"
         }
     }
 }
-
-node {
-    preguntar()
-    if (didTimeout) {
-        // do something on timeout
-        echo "no input was received before timeout"
-    } else if (userInput == true) {
-        // do something
-        echo "this was successful"
-    } else {
-        // do something else
-        echo "this was not successful"
-        currentBuild.result = 'FAILURE'
-    } 
-}
+    
