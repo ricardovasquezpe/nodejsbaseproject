@@ -66,14 +66,17 @@ pipeline {
         }
         
         stage('Pregunta'){
-            if (didTimeout) {
-                echo "No seleccionó ninguna opcion"
-            } else if (userInput == true) {
-                echo "Aceptó"
-            } else {
-                echo "Falló"
-                currentBuild.result = 'FAILURE'
-            } 
+            steps{
+                preguntar()
+                if (didTimeout) {
+                    echo "No seleccionó ninguna opcion"
+                } else if (userInput == true) {
+                    echo "Aceptó"
+                } else {
+                    echo "Falló"
+                    currentBuild.result = 'FAILURE'
+                } 
+            }
         }
         
         stage('Deploy') {
