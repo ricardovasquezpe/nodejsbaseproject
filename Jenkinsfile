@@ -101,7 +101,7 @@ def preguntar() {
         timeout(time: 15, unit: 'SECONDS') { // change to a convenient timeout for you
             userInput = input(
             id: 'Proceed', message: 'Pasamos a la siguiente etapa?', parameters: [
-            [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Porfavor Confirma que esta conforme con el siguiente paso']
+            [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Confirmo bajo mi responsabilidad que pasará a la siguiente etapa']
             ])
         }
     } catch(err) { // timeout reached or input false
