@@ -1,16 +1,14 @@
 pipeline {
-    agent any
+    agent {node { label 'slave' }}
     stages{
-        node("slave") {
-            stage("one") {
-                echo "One"
-            }
-            stage("two") {
-                echo "two"
-            }
-            stage("three") {
-                echo "three"
-            }
+        stage("one") {
+            echo "One"
+        }
+        stage("two") {
+            echo "two"
+        }
+        stage("three") {
+            echo "three"
         }
     }
 }
