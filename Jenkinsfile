@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+     
     environment {
         SLACK_CHANNEL = "#jenkins"  
     }
