@@ -67,15 +67,17 @@ pipeline {
         
         stage('Pregunta'){
             steps{
-                preguntar()
-                if (didTimeout) {
-                    echo "No seleccionó ninguna opcion"
-                } else if (userInput == true) {
-                    echo "Aceptó"
-                } else {
-                    echo "Falló"
-                    currentBuild.result = 'FAILURE'
-                } 
+                script{
+                    preguntar()
+                    if (didTimeout) {
+                        echo "No seleccionó ninguna opcion"
+                    } else if (userInput == true) {
+                        echo "Aceptó"
+                    } else {
+                        echo "Falló"
+                        currentBuild.result = 'FAILURE'
+                    } 
+                }
             }
         }
         
