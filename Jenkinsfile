@@ -1,32 +1,93 @@
-def userInput = true
-def didTimeout = false
-try {
-    timeout(time: 15, unit: 'SECONDS') { // change to a convenient timeout for you
-        userInput = input(
-        id: 'Proceed1', message: 'Was this successful?', parameters: [
-        [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
-        ])
+pipeline {
+    agent any
+    
+    environment {
+        SLACK_CHANNEL = "#jenkins"  
     }
-} catch(err) { // timeout reached or input false
-    def user = err.getCauses()[0].getUser()
-    if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
-        didTimeout = true
-    } else {
-        userInput = false
-        echo "Aborted by: [${user}]"
+    
+    stages{
+        stage('Notificar') {
+            steps {
+                slackSend(
+                            channel: "${env.SLACK_CHANNEL}",
+                            color: "good",
+                            message: "Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+                    )
+            
+            }
+        }
+        
+        stage('Slave'){
+            agent { node { label "slave" } }
+            steps{
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
+                    script{
+                        sh 'echo "Holi Slave"'
+                    }
+                //}
+            }
+        }
+        
+        stage('StartUp'){
+            steps{
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
+                    script{
+                        sh 'npm install'
+                    }
+                //}
+            }
+        }
+        
+        stage('Testing'){
+            steps{
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
+                    script{
+                        sh 'npm run test'
+                    }
+                //}
+            }
+            post {
+                failure{
+                    echo 'Tests failed'
+                }
+                always {
+                  //step([$class: 'CoberturaPublisher', coberturaReportFile: 'nodejsbaseproject/output/coverage/jest/cobertura-coverage.xml'])
+                  //junit 'nodejsbaseproject/test_results/junit/junit.xml'
+                    junit 'test_results/junit/junit.xml'
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                //dir("${env.WORKSPACE}/nodejsbaseproject"){
+                    script {
+                        sh 'npm run build'
+                    }
+                //}
+            }
+            post{
+                success{
+                    echo "${env.BUILD_URL} has result success"
+                }
+                failure{
+                    emailext body: 'Error on Jenkins Build ${env.BUILD_URL}', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Jenkins Error'
+                }
+                aborted {
+                    echo "Aborted"
+                }
+            }
+        }
+        stage('Deploy') {
+            /*when {
+                expression {
+                    currentBuild.previousBuild.result == 'SUCCESS'
+                }
+            }*/
+            steps {
+                script {
+                    sh 'npm start'
+                }
+            }
+        }
     }
-}
-
-node {
-    if (didTimeout) {
-        // do something on timeout
-        echo "no input was received before timeout"
-    } else if (userInput == true) {
-        // do something
-        echo "this was successful"
-    } else {
-        // do something else
-        echo "this was not successful"
-        currentBuild.result = 'FAILURE'
-    } 
 }
