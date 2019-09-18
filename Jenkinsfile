@@ -1,11 +1,21 @@
 pipeline {
     agent any
+    
+    environment {
+        SLACK_CHANNEL = "#jenkins"
+        SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
+        SLACK_TOKEN = credentials("slack_token")
+        DEPLOY_URL = "https://deployment.example.com/"
+    }
+    
     stages{
-        stage('Slack Message') {
+        stage('Notificar') {
             steps {
-                slackSend channel: '#jenkins',
-                    color: 'good',
-                    message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
+                slackSend(
+                            channel: "${env.SLACK_CHANNEL}",
+                            color: "good",
+                            message: "${env.STACK_PREFIX} production deploy: *${env.DEPLOY_VERSION}*. <${env.DEPLOY_URL}|Access service> - <${env.BUILD_URL}|Check build>"
+                    )
             
             }
         }
