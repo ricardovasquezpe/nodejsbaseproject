@@ -1,8 +1,8 @@
 pipeline {
     agent any
-     
+    
     environment {
-        SLACK_CHANNEL = "#jenkins"  
+        SLACK_CHANNEL = "#jenkins"
     }
     
     stages{
