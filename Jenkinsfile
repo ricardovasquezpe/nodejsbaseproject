@@ -2,13 +2,25 @@ pipeline {
     agent {node { label 'slave' }}
     stages{
         stage("one") {
-            echo "One"
+            steps{
+                script{
+                    sh 'echo "hola"'
+                }
+            }
         }
         stage("two") {
-            echo "two"
+            steps{
+                script{
+                    sh 'echo "hola1"'
+                }
+            }
         }
         stage("three") {
-            echo "three"
+            steps{
+                script{
+                    sh 'echo "hola2"'
+                }
+            }
         }
     }
 }
