@@ -1,5 +1,5 @@
 def userInput = true
-def didTimeout = false
+def didTimeout = false 
 
 def pregunta() {
     try {
