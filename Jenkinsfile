@@ -4,7 +4,7 @@ pipeline {
     environment {
         SLACK_CHANNEL = "#jenkins"
         SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
-        SLACK_TOKEN = credentials("slack_token")
+        SLACK_TOKEN = credentials("slack")
         DEPLOY_URL = "https://deployment.example.com/"
     }
     
