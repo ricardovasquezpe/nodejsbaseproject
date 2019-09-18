@@ -3,9 +3,6 @@ pipeline {
     
     environment {
         SLACK_CHANNEL = "#jenkins"
-        SLACK_TEAM_DOMAIN = "MY-SLACK-TEAM"
-        SLACK_TOKEN = credentials("slack")
-        DEPLOY_URL = "https://deployment.example.com/"
     }
     
     stages{
@@ -14,7 +11,7 @@ pipeline {
                 slackSend(
                             channel: "${env.SLACK_CHANNEL}",
                             color: "good",
-                            message: "${env.STACK_PREFIX} production deploy: *${env.DEPLOY_VERSION}*. <${env.DEPLOY_URL}|Access service> - <${env.BUILD_URL}|Check build>"
+                            message: "Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}"
                     )
             
             }
