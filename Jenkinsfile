@@ -3,22 +3,30 @@ def didTimeout = false
 
 pipeline {
     agent any
-    def app
     stages{
         
-        stage ('docker'){
-            steps{
-                app = docker.build("test")
+        stage('docker'){
+            steps {
+                script {
+                    node {
+                        def app
+
+                        /*stage('Clone repository') {
+                            checkout scm
+                        }*/
+
+                        stage('Build image') {                            
+                            app = docker.build("test")
+                        }
+
+                        stage('Test image') {
+                            app.inside {
+                                sh 'echo "Tests passed"'
+                            }
+                        }              
+                    }                 
+                }
             }
-        }
-        
-        stage('Test image') {
-            steps{
-               app.inside {
-                    sh 'echo "Tests passed"'
-                } 
-            }
-            
         }
         
         stage('Slave'){
