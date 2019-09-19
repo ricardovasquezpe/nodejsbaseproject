@@ -1,9 +1,9 @@
 def userInput = true
 def didTimeout = false
-def app
 
 pipeline {
     agent any
+    def app
     stages{
         
         stage ('docker'){
