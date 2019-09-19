@@ -1,9 +1,21 @@
 def userInput = true
 def didTimeout = false
+def app
 
 pipeline {
     agent any
     stages{
+        
+        stage ('docker'){
+            app = docker.build("test")
+        }
+        
+        stage('Test image') {
+            app.inside {
+                sh 'echo "Tests passed"'
+            }
+        }
+        
         stage('Slave'){
             agent { node { label "slave" } }
             steps{
