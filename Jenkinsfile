@@ -7,13 +7,18 @@ pipeline {
     stages{
         
         stage ('docker'){
-            app = docker.build("test")
+            steps{
+                app = docker.build("test")
+            }
         }
         
         stage('Test image') {
-            app.inside {
-                sh 'echo "Tests passed"'
+            steps{
+               app.inside {
+                    sh 'echo "Tests passed"'
+                } 
             }
+            
         }
         
         stage('Slave'){
