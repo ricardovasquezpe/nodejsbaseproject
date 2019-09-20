@@ -22,7 +22,8 @@ pipeline {
                             checkout scm
                         }*/
 
-                        stage('Build image') {                            
+                        stage('Build image') {  
+                            sh 'ls'
                             app = docker.build("test")
                         }
 
