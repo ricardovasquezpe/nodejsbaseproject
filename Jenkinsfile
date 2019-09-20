@@ -5,22 +5,15 @@ pipeline {
     agent any
     stages{
         
-        stage('Clone repository') {
-            steps {
-                checkout scm
-                sh 'ls'
-            }
-        }
-        
         stage('docker'){
             steps {
                 script {
                     node {
                         def app
 
-                        /*stage('Clone repository') {
+                        stage('Clone repository') {
                             checkout scm
-                        }*/
+                        }
 
                         stage('Build image') {  
                             sh 'ls'
