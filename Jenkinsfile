@@ -44,6 +44,7 @@ pipeline {
             steps{
                 //dir("${env.WORKSPACE}/nodejsbaseproject"){
                     script{
+                        sh 'npm --version'
                         sh 'npm install'
                     }
                 //}
