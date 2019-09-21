@@ -2,7 +2,7 @@ def userInput = true
 def didTimeout = false
 
 pipeline {
-    agent any
+    agent any 
     stages{
         
         stage('docker'){
