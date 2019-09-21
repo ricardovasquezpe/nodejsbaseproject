@@ -5,7 +5,7 @@ pipeline {
     agent any 
     stages{
         
-        stage('docker'){
+        /*stage('docker'){
             steps {
                 script {
                     node {
@@ -16,7 +16,6 @@ pipeline {
                         }
 
                         stage('Build image') {  
-                            sh 'ls'
                             app = docker.build("test")
                         }
 
@@ -28,9 +27,9 @@ pipeline {
                     }                 
                 }
             }
-        }
+        }*/
         
-        stage('Slave'){
+        /*stage('Slave'){
             agent { node { label "slave" } }
             steps{
                 //dir("${env.WORKSPACE}/nodejsbaseproject"){
@@ -39,7 +38,7 @@ pipeline {
                     }
                 //}
             }
-        }
+        }*/
         
         stage('StartUp'){
             steps{
@@ -81,6 +80,7 @@ pipeline {
             post{
                 success{
                     echo "${env.BUILD_URL} has result success"
+                    emailext body: 'Error on Jenkins Build ${env.BUILD_URL}', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Jenkins Error'
                 }
                 failure{
                     emailext body: 'Error on Jenkins Build ${env.BUILD_URL}', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Jenkins Error'
