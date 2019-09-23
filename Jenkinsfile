@@ -33,7 +33,7 @@ pipeline {
         }*/
         
         stage('Slave'){
-            agent { node { label "slave" } }
+            agent { node { label "Slave" } }
             steps{
                 //dir("${env.WORKSPACE}/nodejsbaseproject"){
                     script{
