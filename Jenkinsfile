@@ -8,7 +8,7 @@ pipeline {
     }
     stages{
         
-        /*stage('docker'){
+        stage('docker'){
             steps {
                 script {
                     node {
@@ -30,7 +30,7 @@ pipeline {
                     }                 
                 }
             }
-        }*/
+        }
         
         stage('Slave'){
             agent { node { label "Slave" } }
