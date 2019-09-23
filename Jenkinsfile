@@ -84,7 +84,6 @@ pipeline {
             post{
                 success{
                     echo "${env.BUILD_URL} has result success"
-                    emailext body: 'Error on Jenkins Build ${env.BUILD_URL}', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Jenkins Error'
                 }
                 failure{
                     emailext body: 'Error on Jenkins Build ${env.BUILD_URL}', recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: 'Jenkins Error'
@@ -104,7 +103,7 @@ pipeline {
                     } else if (userInput == true) {
                         echo "Aceptó"
                     } else {
-                        echo "Falló"
+                        echo "Abortó"
                         currentBuild.result = 'FAILURE'
                     } 
                 }
