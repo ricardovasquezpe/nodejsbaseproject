@@ -32,7 +32,7 @@ pipeline {
             }
         }*/
         
-        /*stage('Slave'){
+        stage('Slave'){
             agent { node { label "slave" } }
             steps{
                 //dir("${env.WORKSPACE}/nodejsbaseproject"){
@@ -41,7 +41,7 @@ pipeline {
                     }
                 //}
             }
-        }*/
+        }
         
         stage('StartUp'){
             steps{
