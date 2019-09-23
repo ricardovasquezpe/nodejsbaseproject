@@ -4,7 +4,7 @@ def didTimeout = false
 pipeline {
     agent any 
     tools {
-        nodejs 'nodejs6'
+        nodejs 'Nodejs'
     }
     stages{
         
