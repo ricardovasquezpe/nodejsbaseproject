@@ -4,10 +4,20 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { sign } from 'jsonwebtoken';
 
+import {Path, Accept, GET} from 'typescript-rest';
+import {Tags} from 'typescript-rest-swagger';
+
 const User = mongoose.model('User', UserSchema);
 
 export class UserController{
 
+    /**
+     * This description will be used to describe the get operation of path '/mypath' on the generated swagger
+     * @param test And this will describe the parameter test of this same operation
+     */
+    @GET
+    @Tags('UserRouter')
+    @Accept('text/html')
     public login (req: Request, res: Response) {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
@@ -65,8 +75,17 @@ export class UserController{
 
         });
     }
+    
+    /**
+     * This method is to get the sum between 2 numbers
+     * 
+     * @param a  This first param is for 'a' letter.
+     * @typeparam a  Comment for type `Number`.
+     * @param b  This second param is for 'b' letter.
+     * @return   This method return the sum bewteen 'a' and 'b'
+     */
 
-    public suma(a , b){
+    public suma(a : number , b : number){
         return a + b;
     }
 
