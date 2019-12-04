@@ -1,0 +1,14 @@
+{
+    "swagger": {
+        "outputDirectory": "./swagger",
+        "entryFile": "./lib/controllers/*.ts",
+        "version": "1.0",
+        "name": "Typescript-rest Test API",
+        "description": "a description",
+        "license": "MIT",
+        "basePath": "/v1",
+        "ignore": [
+            "**/node_modules/**"
+        ]
+    }
+}
