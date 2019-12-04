@@ -2,7 +2,7 @@ import { CustomValidators } from "../util/customValidators";
 
 const customValidators = new CustomValidators() 
 
-describe('Sample Test', () => {
+describe('Sample Test11222', () => {
     it('should test that true === true', () => {
         const result = customValidators.suma(3 , 4);
         expect(result).toBe(7)
