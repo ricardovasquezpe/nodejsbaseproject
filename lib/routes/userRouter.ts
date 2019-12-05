@@ -14,7 +14,7 @@ export class UserRoutes {
         app.route('/')
         .get((req: Request, res: Response) => {            
             res.status(200).send({
-                message: 'API Working Correctly'
+                message: 'API Working Correctly now'
             })
         });
         
