@@ -4,6 +4,8 @@
   "description": "An API built with NodeJS, Express, MongoDB and TypeScript",
   "main": "dist/server.js",
   "scripts": {
+    "swagger" : "swaggerGen -c ./swaggerConfig.json",
+    "doc": "typedoc --theme default --out docs lib/controllers",
     "test": "jest --coverage",
     "coverage": "jest --coverage",
     "build": "tsc",
@@ -32,23 +34,26 @@
     "typescript": "^3.6.3",
     "jest-junit": "^8.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "typedoc": "^0.15.3",
+    "typescript-rest-swagger": "^1.0.4"
+  },
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ],
-    "coverageReporters":[
+    "coverageReporters": [
       "text",
       "html"
     ],
-    "reporters":[
+    "reporters": [
       "default",
       "jest-junit"
     ]
   },
-  "jest-junit":{
+  "jest-junit": {
     "outputDirectory": "test_results/junit",
     "outputName": "junit.xml",
     "usePathForSuiteName": "true"
