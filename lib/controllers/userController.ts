@@ -17,7 +17,7 @@ export class UserController{
      */
     @GET
     @Tags('UserRouter')
-    @Accept('text/html')
+    @Accept('text/html1')
     public login (req: Request, res: Response) {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
